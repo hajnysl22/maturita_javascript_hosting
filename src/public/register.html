@@ -1,0 +1,30 @@
+<h2>Registrace</h2>
+<form id="registerForm">
+    <input placeholder="Uživatelské jméno" name="username" required />
+    <input type="password" placeholder="Heslo" name="password" required />
+    <label>
+        <input type="checkbox" name="consent" required />
+        Souhlasím, že nebudu posílat nevhodné poznámky
+    </label>
+    <button>Registrovat</button>
+</form>
+<p id="message"></p>
+<a href="index.html">Zpět na přihlášení</a>
+
+<script>
+document.getElementById('registerForm').onsubmit = async e => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const res = await fetch('/auth/register', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username: form.get('username'),
+            password: form.get('password'),
+            consent: form.get('consent') === 'on'
+        })
+    });
+    const data = await res.json();
+    document.getElementById('message').innerText = data.message || "Registrace úspěšná!";
+};
+</script>

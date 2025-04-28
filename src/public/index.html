@@ -1,0 +1,31 @@
+<h2>Přihlášení</h2>
+<form id="loginForm">
+    <input placeholder="Uživatelské jméno" name="username" required />
+    <input type="password" placeholder="Heslo" name="password" required />
+    <button>Přihlásit</button>
+</form>
+<p id="message"></p>
+<a href="register.html">Nemáte účet? Registrujte se</a>
+
+<script>
+document.getElementById('loginForm').onsubmit = async e => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const username = form.get('username');
+    const res = await fetch('/auth/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username,
+            password: form.get('password')
+        })
+    });
+    const data = await res.json();
+    if (data.success) {
+        localStorage.setItem('user', username);
+        window.location.href = 'notes.html';
+    } else {
+        document.getElementById('message').innerText = data.message;
+    }
+};
+</script>

@@ -1,0 +1,22 @@
+<h2>Vaše poznámky</h2>
+<button onclick="logout()">Odhlásit</button>
+<form id="noteForm">
+    <input name="title" placeholder="Nadpis" required />
+    <textarea name="text" placeholder="Text" required></textarea>
+    <button>Přidat poznámku</button>
+</form>
+<label>
+    <input type="checkbox" id="importantFilter" />
+    Zobrazit jen důležité poznámky
+</label>
+<div id="notes"></div>
+<hr>
+<h3>Zrušit účet</h3>
+<form id="deleteAccountForm">
+    <input type="password" name="password" placeholder="Zadejte heslo pro potvrzení" required />
+    <button style="color: red;">Zrušit účet</button>
+</form>
+<p id="deleteMessage" style="color: red;"></p>
+
+<script src="script.js"></script>
+
