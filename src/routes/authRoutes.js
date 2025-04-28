@@ -2,21 +2,21 @@ const express = require('express');
 const { register, login, deleteAccount } = require('../auth');
 const router = express.Router();
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
     const { username, password, consent } = req.body;
-    const result = register(username, password, consent);
+    const result = await register(username, password, consent);
     res.json(result);
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-    const result = login(username, password);
+    const result = await login(username, password);
     res.json(result);
 });
 
-router.delete('/account', (req, res) => {
+router.delete('/account', async (req, res) => {
     const { username, password } = req.body;
-    const result = deleteAccount(username, password);
+    const result = await deleteAccount(username, password);
     res.json(result);
 });
 

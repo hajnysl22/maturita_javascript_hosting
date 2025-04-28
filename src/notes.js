@@ -1,45 +1,47 @@
-const db = require('./db');
+const User = require('./models/User');
 
-function getUsers() {
-    return db.get('users') || {};
-}
+async function addNote(username, title, text) {
+    const user = await User.findOne({ username });
+    if (!user) return null;
 
-function saveUsers(users) {
-    db.set('users', users);
-}
-
-function addNote(username, title, text) {
-    const users = getUsers();
     const note = {
         title,
         text,
-        created: new Date().toISOString(),
+        created: new Date(),
         important: false
     };
-    users[username].notes.unshift(note);
-    saveUsers(users);
+
+    user.notes.unshift(note);
+    await user.save();
+
     return note;
 }
 
-function getNotes(username, onlyImportant = false) {
-    const users = getUsers();
-    let notes = users[username].notes || [];
+async function getNotes(username, onlyImportant = false) {
+    const user = await User.findOne({ username });
+    if (!user) return [];
+
+    let notes = user.notes;
     if (onlyImportant) {
         notes = notes.filter(note => note.important);
     }
     return notes;
 }
 
-function deleteNote(username, index) {
-    const users = getUsers();
-    users[username].notes.splice(index, 1);
-    saveUsers(users);
+async function deleteNote(username, index) {
+    const user = await User.findOne({ username });
+    if (!user) return;
+
+    user.notes.splice(index, 1);
+    await user.save();
 }
 
-function toggleImportant(username, index) {
-    const users = getUsers();
-    users[username].notes[index].important = !users[username].notes[index].important;
-    saveUsers(users);
+async function toggleImportant(username, index) {
+    const user = await User.findOne({ username });
+    if (!user) return;
+
+    user.notes[index].important = !user.notes[index].important;
+    await user.save();
 }
 
 module.exports = { addNote, getNotes, deleteNote, toggleImportant };
