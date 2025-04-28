@@ -1,42 +1,35 @@
 const bcrypt = require('bcryptjs');
-const db = require('./db');
+const User = require('./models/User');
 
-function getUsers() {
-    return db.get('users') || {};
-}
-
-function saveUsers(users) {
-    db.set('users', users);
-}
-
-function register(username, password, consent) {
-    const users = getUsers();
+async function register(username, password, consent) {
     if (!consent) return { success: false, message: "Souhlas je povinný." };
-    if (users[username]) return { success: false, message: "Jméno již existuje." };
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return { success: false, message: "Jméno již existuje." };
+    }
 
     const hashed = bcrypt.hashSync(password, 10);
-    users[username] = { password: hashed, notes: [] };
-    saveUsers(users);
+    const user = new User({ username, password: hashed, notes: [] });
+    await user.save();
+
     return { success: true };
 }
 
-function login(username, password) {
-    const users = getUsers();
-    const user = users[username];
+async function login(username, password) {
+    const user = await User.findOne({ username });
     if (!user || !bcrypt.compareSync(password, user.password)) {
         return { success: false, message: "Neplatné přihlášení." };
     }
     return { success: true };
 }
 
-function deleteAccount(username, password) {
-    const users = getUsers();
-    const user = users[username];
+async function deleteAccount(username, password) {
+    const user = await User.findOne({ username });
     if (!user || !bcrypt.compareSync(password, user.password)) {
         return { success: false, message: "Špatné heslo." };
     }
-    delete users[username];
-    saveUsers(users);
+    await User.deleteOne({ username });
     return { success: true };
 }
 
