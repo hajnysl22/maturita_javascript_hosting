@@ -4,27 +4,7 @@ Jednoduchá webová aplikace postavená na Node.js a Expressu, která umožňuje
 
 ---
 
-## 🚀 Spuštění aplikace
-
-### 1. Nainstaluj Node.js
-
-Stáhni a nainstaluj Node.js z: https://nodejs.org/
-
-### 2. Naklonuj repozitář a přejdi do složky projektu
-
-```bash
-git clone <url-repozitáře>
-cd notes-app
-```
-### 3. Nainstaluj závislosti
-```
-npm install
-```
-### 4. Spusť server
-```
-node app.js
-```
-### 5. Otevři si webový prohlížeč
+### Dostupné na:
 ```Zadej
-http://localhost:3000
+https://shining-lowly-comic.glitch.me/
 ```
