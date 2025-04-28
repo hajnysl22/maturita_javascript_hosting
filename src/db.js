@@ -1,4 +1,15 @@
-const SimpleJsonDB = require('simple-json-db');
-const path = require('path');
-const db = new SimpleJsonDB(path.resolve(__dirname, 'data.json'));
-module.exports = db;
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const mongoURI = process.env.MONGO_URI;
+
+mongoose.connect(mongoURI)
+  .then(() => {
+    console.log('✅ MongoDB connected successfully');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
+  });
+
+
+module.exports = mongoose;
