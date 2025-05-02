@@ -6,5 +6,5 @@ Jednoduchá webová aplikace postavená na Node.js a Expressu, která umožňuje
 
 ### Dostupné na:
 ```Zadej
-https://shining-lowly-comic.glitch.me/
+https://javascript-maturita.onrender.com
 ```
